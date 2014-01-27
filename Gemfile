@@ -22,6 +22,8 @@ gem 'stylus-source', '0.31.0'
 gem 'eco'
 gem 'json', '~> 1.7.7'
 gem 'sinatra-contrib', github: 'maccman/sinatra-contrib'
+gem 'execjs'
+gem 'therubyracer'
 
 group :development do
   gem 'mina'
