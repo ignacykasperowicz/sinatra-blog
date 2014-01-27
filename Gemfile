@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'sinatra', require: 'sinatra/base'
-gem 'unicorn'
+gem 'thin'
 gem 'erubis'
 gem 'i18n'
 gem 'activesupport'
@@ -24,6 +24,6 @@ gem 'json', '~> 1.7.7'
 gem 'sinatra-contrib', github: 'maccman/sinatra-contrib'
 
 group :development do
-  gem 'thin'
+  gem 'mina'
   gem 'debugger', require: 'ruby-debug'
 end
