@@ -26,6 +26,8 @@ require 'app/routes'
 
 module Blog
   class App < Sinatra::Application
+    set :static, true
+
     configure do
       disable :method_override
       disable :static
