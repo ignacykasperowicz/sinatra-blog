@@ -21,6 +21,12 @@ module Blog
         erb :index
       end
 
+      get '/to_pdf/' do
+        html = haml(:pdf)
+        kit = PDFKit.new(html)
+        kit.to_pdf
+      end
+
       get '/:slug' do
         @post = Post.find!(params[:slug])
         erb :post
