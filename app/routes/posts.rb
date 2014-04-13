@@ -24,6 +24,9 @@ module Blog
       get '/to_pdf/' do
         headers({'Content-Type' => 'application/pdf'})
         html = haml(:pdf)
+        PDFKit.configure do |config|
+          config.wkhtmltopdf = "/usr/local/bin/wkhtmltopdf"
+        end
         kit = PDFKit.new(html)
         kit.to_pdf
       end
