@@ -21,16 +21,6 @@ module Blog
         erb :index
       end
 
-      get '/to_pdf/' do
-        headers({'Content-Type' => 'application/pdf'})
-        html = haml(:pdf)
-        PDFKit.configure do |config|
-          config.wkhtmltopdf = "/usr/local/bin/wkhtmltopdf"
-        end
-        kit = PDFKit.new(html)
-        kit.to_pdf
-      end
-
       get '/:slug' do
         @post = Post.find!(params[:slug])
         erb :post
