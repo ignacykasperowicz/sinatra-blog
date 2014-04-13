@@ -4,3 +4,5 @@ tmp
 mails
 tmp/gems.json
 keys
+.env
+.powenv

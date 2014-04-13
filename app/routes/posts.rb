@@ -22,6 +22,7 @@ module Blog
       end
 
       get '/to_pdf/' do
+        headers({'Content-Type' => 'application/pdf'})
         html = haml(:pdf)
         kit = PDFKit.new(html)
         kit.to_pdf
