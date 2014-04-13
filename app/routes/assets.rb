@@ -11,7 +11,6 @@ module Blog
         kit = PDFKit.new(html)
         kit.to_pdf
       end
-
     end
   end
 end
