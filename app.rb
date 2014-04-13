@@ -24,6 +24,8 @@ require 'app/models'
 require 'app/helpers'
 require 'app/routes'
 
+require 'pdfkit'
+
 module Blog
   class App < Sinatra::Application
     set :static, true

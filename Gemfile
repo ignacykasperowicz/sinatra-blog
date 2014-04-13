@@ -24,6 +24,8 @@ gem 'json', '~> 1.7.7'
 gem 'sinatra-contrib', github: 'maccman/sinatra-contrib'
 gem 'execjs'
 gem 'therubyracer'
+gem 'pdfkit'
+gem 'haml'
 
 group :development do
   gem 'mina'
