@@ -56,8 +56,11 @@ module Blog
       end
 
       def html
+        renderOptions = {hard_wrap: true, filter_html: true}
+        markdownOptions = {autolink: true, no_intra_emphasis: true, fenced_code: true}
+
         @html ||= begin
-          renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+          renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(renderOptions), markdownOptions)
           renderer.render(markdown)
         end
       end
@@ -81,6 +84,14 @@ module Blog
         @author
       end
 
+      def syntax_highlighter(html)  
+        doc = Nokogiri::HTML(html)
+        doc.search("//pre[@lang]").each do |pre|  
+          pre.replace Albino.colorize(pre.text.rstrip, pre[:lang])  
+        end  
+        doc.to_s 
+      end 
+
       def draft!
         @draft = true
       end
@@ -98,9 +109,10 @@ module Blog
       end
 
       def render
-        self.class.cache.fetch(key) do
-          html
-        end
+        # self.class.cache.fetch(key) do
+          syntax_highlighter(html)
+          # html
+        # end
       end
 
       alias_method :setup, :markdown
