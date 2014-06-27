@@ -2,6 +2,13 @@ require 'pathname'
 
 module Blog
   module Models
+
+    class HTMLwithAlbino < Redcarpet::Render::HTML      
+      def block_code(code, language)
+        Albino.colorize(code, language)
+      end
+    end
+
     class Post
       def self.path
         Pathname(App.settings.root) + 'posts'
@@ -56,11 +63,12 @@ module Blog
       end
 
       def html
+        # renderOptions = {hard_wrap: true, filter_html: true}
         renderOptions = {hard_wrap: true, filter_html: true}
-        markdownOptions = {autolink: true, no_intra_emphasis: true, fenced_code: true}
+        markdownOptions = {no_intra_emphasis: true, fenced_code_blocks: true}
 
         @html ||= begin
-          renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(renderOptions), markdownOptions)
+          renderer = Redcarpet::Markdown.new(HTMLwithAlbino.new(renderOptions), markdownOptions)
           renderer.render(markdown)
         end
       end
@@ -86,9 +94,6 @@ module Blog
 
       def syntax_highlighter(html)  
         doc = Nokogiri::HTML(html)
-        doc.search("//pre[@lang]").each do |pre|  
-          pre.replace Albino.colorize(pre.text.rstrip, pre[:lang])  
-        end  
         doc.to_s 
       end 
 
