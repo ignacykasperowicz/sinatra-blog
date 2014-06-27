@@ -63,7 +63,6 @@ module Blog
       end
 
       def html
-        # renderOptions = {hard_wrap: true, filter_html: true}
         renderOptions = {hard_wrap: true, filter_html: true}
         markdownOptions = {no_intra_emphasis: true, fenced_code_blocks: true}
 
