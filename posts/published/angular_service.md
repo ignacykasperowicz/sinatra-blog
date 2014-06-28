@@ -18,7 +18,6 @@ First our routing:
       templateUrl: "views/templates/graph.html"
       controller: "GraphCtrl as graph"
     
-# --- BASE: HOME ---
 .state "base.home",
   url: '/'
   views:          
