@@ -10,7 +10,7 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :domain, 'app1.kalm.pl'
+set :domain, 'doppler.kalm.pl'
 set :deploy_to, '/var/sites/blog.ignacy.co'
 set :repository, 'git@github.com:usecide/sinatra-blog.git'
 set :branch, 'master'
@@ -27,7 +27,7 @@ set :user, 'deployer'    # Username in the server to SSH to.
 # `mina deploy` or `mina rake`.
 task :environment do
   set :rvm_path, '/usr/local/rvm/scripts/rvm'
-  invoke :'rvm:use[ruby-2.0.0-p353@blog-ignacy]'
+  invoke :'rvm:use[ruby-2.2.0@blog-ignacy]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
