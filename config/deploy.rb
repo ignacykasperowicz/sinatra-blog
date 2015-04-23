@@ -20,7 +20,7 @@ set :branch, 'master'
 set :shared_paths, []
 
 # Optional settings:
-set :user, 'root'    # Username in the server to SSH to.
+set :user, 'deployer'    # Username in the server to SSH to.
 #   set :port, '30000'     # SSH port number.
 
 # This task is the environment that is loaded for most commands, such as
@@ -55,7 +55,6 @@ task :deploy => :environment do
 
     to :launch do
       queue "bundle exec rake assets:precompile"
-      queue "chown www-data.www-data -R #{deploy_to}/current/public"
       queue "bundle exec thin restart -C thin.yml -R config.ru"
     end
   end

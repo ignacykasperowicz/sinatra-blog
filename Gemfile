@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.2.0'
 
 gem 'sinatra', '~> 1.4.2'
 gem 'thin'
@@ -10,7 +10,7 @@ gem 'rake'
 gem 'rack-ssl'
 gem 'redcarpet'
 gem 'albino'
-gem 'nokogiri'  
+gem 'nokogiri'
 gem 'dalli'
 gem 'memcachier'
 gem 'builder'
@@ -28,8 +28,8 @@ gem 'execjs'
 gem 'therubyracer'
 gem 'pdfkit'
 gem 'haml'
+gem 'eventmachine', '~> 1.0.4'
 
 group :development do
   gem 'mina'
-  gem 'debugger', require: 'ruby-debug'
 end
