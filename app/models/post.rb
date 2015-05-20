@@ -3,9 +3,9 @@ require 'pathname'
 module Blog
   module Models
 
-    class HTMLwithAlbino < Redcarpet::Render::HTML      
+    class CodeRayify < Redcarpet::Render::HTML
       def block_code(code, language)
-        Albino.colorize(code, language)
+        CodeRay.scan(code, language).div
       end
     end
 
@@ -63,11 +63,20 @@ module Blog
       end
 
       def html
-        renderOptions = {hard_wrap: true, filter_html: true}
         markdownOptions = {no_intra_emphasis: true, fenced_code_blocks: true}
 
         @html ||= begin
-          renderer = Redcarpet::Markdown.new(HTMLwithAlbino.new(renderOptions), markdownOptions)
+          coderayified = CodeRayify.new(:filter_html => true,
+                                          :hard_wrap => true)
+          options = {
+            :fenced_code_blocks => true,
+            :no_intra_emphasis => true,
+            :autolink => true,
+            :strikethrough => true,
+            :lax_html_blocks => true,
+            :superscript => true
+          }
+          renderer = Redcarpet::Markdown.new(coderayified, markdownOptions)
           renderer.render(markdown)
         end
       end
@@ -91,10 +100,10 @@ module Blog
         @author
       end
 
-      def syntax_highlighter(html)  
+      def syntax_highlighter(html)
         doc = Nokogiri::HTML(html)
-        doc.to_s 
-      end 
+        doc.to_s
+      end
 
       def draft!
         @draft = true

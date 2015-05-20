@@ -10,7 +10,7 @@ Simplest factory to handle API resource might look like:
 angular.module('myApp')
   .factory 'carsFactory', ["Restangular", (Restangular)->
     @resource = Restangular.service("")
-    
+
     getRes = ->
       Restangular.service("cars").one().get()
 
