@@ -16,7 +16,7 @@ module Blog
 
       def registered(app)
         # Assets
-        app.set :assets, assets = Sprockets::Environment.new(app.settings.root)
+        app.set :assets, assets = Sprockets::Environment.new
 
         assets.append_path('app/assets/javascripts')
         assets.append_path('app/assets/stylesheets')
