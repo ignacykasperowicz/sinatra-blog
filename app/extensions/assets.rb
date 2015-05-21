@@ -28,6 +28,7 @@ module Blog
 
         app.set :asset_host, ''
         assets.cache = Sprockets::Cache::FileStore.new('./tmp')
+        assets.index
         # app.configure :development do
         #   assets.cache = Sprockets::Cache::FileStore.new('./tmp')
         # end
