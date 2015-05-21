@@ -4,8 +4,6 @@ namespace :assets do
     assets = Blog::Routes::Base.assets
     target = Pathname(Blog::App.root) + 'public/assets'
 
-    puts Blog::Routes::Base.assets.paths
-
     assets.each_logical_path do |logical_path|
       if asset = assets.find_asset(logical_path)
         filename = target.join(asset.digest_path)
