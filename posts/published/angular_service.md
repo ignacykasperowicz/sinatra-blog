@@ -7,23 +7,27 @@ I'd like to share how I use Angular services concept to bind two controllers and
 First our routing:
 
 ``` javascript
-.state "base",
-  abstract: true
-  url: ''
-  views:
-    'navbar':
+.state("base", {
+  abstract: true,
+  url: '',
+  views: {
+    'navbar': {
       templateUrl: "views/templates/navbar.html"
-
-    'graph':
-      templateUrl: "views/templates/graph.html"
+    },
+    'graph': {
+      templateUrl: "views/templates/graph.html",
       controller: "GraphCtrl as graph"
-    
-.state "base.home",
-  url: '/'
-  views:          
-    'content@':
-      templateUrl: "views/templates/home/content.html"
+    }
+  }
+}).state("base.home", {
+  url: '/',
+  views: {
+    'content@': {
+      templateUrl: "views/templates/home/content.html",
       controller: "BaseCtrl as base"
+    }
+  }
+});
 ```
 
 I like to use [angular-ui](https://github.com/angular-ui/ui-router) router because concept of 'states' reflects real app usage scenarios. Here I use one `abstract` state for my layout which is parent for all other states.
@@ -32,47 +36,35 @@ I do not like `$scope` concept in Angular, it is somehow too similar to using gl
 Here we have controllers:
 
 ``` javascript
-angular.module('myApp')
+angular.module('myApp').controller("BaseCtrl", [
+  "$stateParams", "$state", "highlighterService", function($stateParams, $state, highlighterService) {
+    $state.reload();
+    this._ = _;
 
-  .controller "BaseCtrl", [
-    "$stateParams"
-    "$state"
-    "highlighterService"
-    ($stateParams, $state, highlighterService) ->
-      $state.reload()
-      @_=_
+    ...
 
-      ...
+    this.highlighter = highlighterService;
 
-      @highlighter = highlighterService
+    ...
 
-      ...
-
-      return
-  ]
-
+  }
+]);
 ```
 
 ``` javascript
-angular.module('myApp')
+angular.module('myApp').controller("GraphCtrl", [
+  "$stateParams", "$state", "highlighterService", function($stateParams, $state, highlighterService) {
+    $state.reload();
+    this._ = _;
 
-  .controller "GraphCtrl", [
-    "$stateParams"
-    "$state"
-    "highlighterService"
-    ($stateParams, $state, highlighterService) ->
-      $state.reload()
-      @_=_
+    ...
 
-      ...
+    this.highlighter = highlighterService;
 
-      @highlighter = highlighterService
+    ...
 
-      ...
-
-      return
-  ]
-
+  }
+]);
 ```
 
 Here we inject our dependency: `highlighterService` service and next we assign it to `@highlighter` variable. We can access our service variables in both controllers because Angular treats services as singletons, so we have one instance of our service used in each controller.
@@ -82,27 +74,28 @@ I also use [underscore library](http://underscorejs.org) and as long as we use `
 Time for service:
 
 ``` javascript
-angular.module('myApp')
-  .service 'highlighterService', ->
-
-    service = {}
-    service.highlightList = 
-      'foo': false
-      'bar': false
-
-    service.setName = (name) ->
-      @highlightList[name] = true
-
-    service.clearName = (name) ->
-      @highlightList[name] = false
-
-    service.getName = (name)->      
-      if @highlightList[name]
-        'highlight'
-      else
-        'lowlight'
-
-    service
+angular.module('myApp').service('highlighterService', function() {
+  var service;
+  service = {};
+  service.highlightList = {
+    'foo': false,
+    'bar': false
+  };
+  service.setName = function(name) {
+    return this.highlightList[name] = true;
+  };
+  service.clearName = function(name) {
+    return this.highlightList[name] = false;
+  };
+  service.getName = function(name) {
+    if (this.highlightList[name]) {
+      return 'highlight';
+    } else {
+      return 'lowlight';
+    }
+  };
+  return service;
+});
 ```
 
 It is very simple service which holds JavaScript hash for two boolean options and returns CSS class name when option is set to `true`.
@@ -125,14 +118,14 @@ Our views:
 `views/templates/home/content.html`
 
 ``` html
-<a href="#" id="foo" 
-  ng-mouseenter="base.highlighter.setName('foo')" 
+<a href="#" id="foo"
+  ng-mouseenter="base.highlighter.setName('foo')"
   ng-mouseleave="base.highlighter.clearName('foo')">
   Foo
 </a>
 
-<a href="#" id="bar" 
-  ng-mouseenter="base.highlighter.setName('bar')" 
+<a href="#" id="bar"
+  ng-mouseenter="base.highlighter.setName('bar')"
   ng-mouseleave="base.highlighter.clearName('bar')">
   Bar
 </a>
@@ -143,4 +136,4 @@ It should be easy to get how it works now:
   * in view `content.html` we have two links `foo` and `bar` which we use to change our boolean options in `highlighterService` on hoover action (Angular `ng-mouseenter` and `ng-mouseleave`)
   * when mouse pointer is over the link we assign `highlight` CSS class to proper image parent div in `graph.html` view
 
-It is awesome how easily service can bind two controllers and further two views to interact with each other. I see it very useful especially when working with `angular-ui router` when I have few states on one visible page and have to interact with each other on proper level of abstraction. 
+It is awesome how easily service can bind two controllers and further two views to interact with each other. I see it very useful especially when working with `angular-ui router` when I have few states on one visible page and have to interact with each other on proper level of abstraction.
