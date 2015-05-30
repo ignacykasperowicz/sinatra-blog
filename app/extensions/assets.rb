@@ -27,16 +27,17 @@ module Blog
         Stylus.setup(assets)
 
         app.set :asset_host, ''
-        assets.cache = Sprockets::Cache::FileStore.new('./tmp')
-        # app.configure :development do
-        #   assets.cache = Sprockets::Cache::FileStore.new('./tmp')
-        # end
 
-        # app.configure :production do
-        #   assets.cache          = Sprockets::Cache::MemcacheStore.new
-        #   # assets.js_compressor  = Closure::Compiler.new
-        #   # assets.css_compressor = YUI::CssCompressor.new
-        # end
+        app.configure :development do
+          assets.cache = Sprockets::Cache::FileStore.new('./tmp')
+        end
+
+        app.configure :production do
+          assets.cache = Sprockets::Cache::FileStore.new('./tmp')
+          # assets.cache          = Sprockets::Cache::MemcacheStore.new
+          # assets.js_compressor  = Closure::Compiler.new
+          # assets.css_compressor = YUI::CssCompressor.new
+        end
 
         app.helpers Helpers
       end
