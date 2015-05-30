@@ -2,6 +2,8 @@
 <% date '29th June 2014' %>
 <% author 'Ignacy Kasperowicz' %>
 
+![Promise GIF](/assets/promise_gif.gif)
+
 When consuming REST API with Angular I use [Restangular](https://github.com/mgonto/restangular). I also like to use Angular `factories` to handle separately each resource returned from API.
 
 Simplest factory to handle API resource might look like:
